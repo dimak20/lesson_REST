@@ -11,6 +11,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.throttling import UserRateThrottle
+from rest_framework.viewsets import GenericViewSet
+
 from station.models import (
     Bus,
     Trip,
@@ -47,7 +49,13 @@ class FacilityViewSet(viewsets.ModelViewSet):
 
 
 
-class BusViewSet(viewsets.ModelViewSet):
+class BusViewSet(
+    mixins.CreateModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.UpdateModelMixin,
+    mixins.ListModelMixin,
+    GenericViewSet
+):
     queryset = Bus.objects.all()
     # throttle_classes = [UserRateThrottle]
     @staticmethod
